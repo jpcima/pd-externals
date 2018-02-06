@@ -2,6 +2,8 @@
 # Puredata externals
 #
 
+include(MingwDLL)
+
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
   if(NOT PD_WINDOWS_PROGRAM_DIR)
     message(FATAL_ERROR "Please set PD_WINDOWS_PROGRAM_DIR on the Windows platform")
@@ -47,5 +49,6 @@ macro(add_pd_external TARGET)
     LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
     PREFIX ""
     SUFFIX "${PD_EXTERNAL_SUFFIX}")
+  mingw_link_static_system_libs("${TARGET}")
   unset(_name)
 endmacro()
