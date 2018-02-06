@@ -19,6 +19,7 @@
  */
 
 #include "util/pd++.h"
+#include <jsl/types>
 
 struct t_dcremove : pd_basic_class<t_dcremove> {
     t_float x_signalin = 0;
