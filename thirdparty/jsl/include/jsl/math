@@ -1,0 +1,31 @@
+// -*- C++ -*-
+#pragma once
+#include <jsl/types>
+#include <gsl/span>
+
+namespace jsl {
+
+template <class R>
+R clamp(R x, R min, R max);
+
+template <class R>
+R square(R x);
+
+template <class R>
+R cube(R x);
+
+// binomial coefficient
+template <class R>
+R binom(uint n, uint k);
+
+// polynomial from roots
+template <class R>
+void poly(gsl::span<const R> z, gsl::span<R> p);
+
+// polynomial evaluation
+template <class R>
+R polyval(gsl::span<const R> p, R x);
+
+}  // namespace jsl
+
+#include "bits/math.tcc"

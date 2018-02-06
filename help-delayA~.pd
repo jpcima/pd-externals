@@ -1,0 +1,38 @@
+#N canvas 850 401 395 334 10;
+#X obj 147 192 +~ 1;
+#X obj 147 214 *~ 0.01;
+#X obj 239 242 line~;
+#X msg 239 186 0.1 100;
+#X msg 258 211 0 100;
+#X text 310 181 on;
+#X text 307 210 off;
+#X text 296 239 envelope;
+#X text 296 252 generator;
+#X text 226 160 amplitude controls:;
+#X obj 166 275 *~;
+#X obj 45 21 delayA~;
+#X text 114 21 - all-pass modulated delay line;
+#X text 27 128 input signal;
+#X text 133 128 delay signal;
+#X text 13 48 The delayA~ object is a fractional delay line. Its argument
+is the maximum delay time \, in seconds \, which is 1 second by default.
+The delay signal sends values in seconds \, which modulate the delay
+at the audio rate. Delay times are clamped between 1/(2*fs) and the
+maximum delay.;
+#X obj 46 149 osc~ 220;
+#X obj 46 242 delayA~ 1;
+#X obj 147 170 osc~;
+#X obj 150 150 hsl 64 15 0 50 0 1 empty empty empty -2 -8 0 10 -262144
+-1 -1 900 1;
+#X obj 166 301 dac~;
+#X connect 0 0 1 0;
+#X connect 1 0 17 1;
+#X connect 2 0 10 1;
+#X connect 3 0 2 0;
+#X connect 4 0 2 0;
+#X connect 10 0 20 0;
+#X connect 10 0 20 1;
+#X connect 16 0 17 0;
+#X connect 17 0 10 0;
+#X connect 18 0 0 0;
+#X connect 19 0 18 0;

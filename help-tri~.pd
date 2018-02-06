@@ -1,0 +1,25 @@
+#N canvas 759 438 505 254 10;
+#X obj 72 168 metro 500;
+#X obj 72 143 r metro;
+#X obj 35 196 tabwrite~ \$0-array;
+#X msg 306 80 \; metro 0;
+#X msg 305 21 \; pd dsp 1 \; metro 1;
+#X text 390 40 <-Click to start;
+#X text 383 89 <-Click to stop;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X array \$0-array 100 float 0;
+#X coords 0 1 100 0 200 100 1 0 0;
+#X restore 268 137 graph;
+#X obj 21 19 tri~;
+#X text 82 19 - primitive triangle oscillator;
+#X obj 35 121 tri~ 440;
+#X obj 38 99 hsl 128 15 0 1000 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 38 81 set the frequency;
+#X text 94 121 <-initial frequency;
+#X text 24 47 Outputs a triangle wave in the range (0 \, 1).;
+#X connect 0 0 2 0;
+#X connect 1 0 0 0;
+#X connect 1 0 0 0;
+#X connect 10 0 2 0;
+#X connect 11 0 10 0;

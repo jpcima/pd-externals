@@ -1,0 +1,40 @@
+#N canvas 493 181 562 283 10;
+#X obj 21 19 bbd~;
+#X text 100 19 - digital model of a bucket brigade delay;
+#X text 24 47 Delays a signal using a simulated analog BBD circuit.
+The circuit is characterized by its maximum delay \, and the number
+of stages.;
+#X text 138 218 <-maximum delay \, stages;
+#X obj 25 116 osc~ 440;
+#X obj 50 151 *~;
+#X obj 92 116 hsl 128 15 1e-05 1 1 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 49 241 dac~ 1 2;
+#X obj 402 116 hsl 128 15 0 10 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 405 99 set modulation frequency;
+#X text 97 99 set input volume;
+#X obj 399 152 osc~;
+#X obj 49 219 bbd~ 0.3 8192;
+#X obj 144 154 hsl 128 15 0 0.1 0 1 empty empty empty -2 -8 0 10 -262144
+-1 -1 2540 1;
+#X text 149 137 set regeneration feedback;
+#X msg 107 176 regen \$1;
+#X text 176 172 <-may result in high output levels.;
+#X text 176 184 manipulate with care.;
+#X obj 399 174 expr~ 0.3*($v1+1)/2;
+#X obj 448 135 loadbang;
+#X msg 448 155 0.5;
+#X text 347 196 <-modulated delay (0 to max);
+#X connect 4 0 5 0;
+#X connect 5 0 12 0;
+#X connect 6 0 5 1;
+#X connect 8 0 11 0;
+#X connect 11 0 18 0;
+#X connect 12 0 7 0;
+#X connect 12 0 7 1;
+#X connect 13 0 15 0;
+#X connect 15 0 12 0;
+#X connect 18 0 12 1;
+#X connect 19 0 20 0;
+#X connect 20 0 11 1;
