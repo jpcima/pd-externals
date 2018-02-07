@@ -4,6 +4,8 @@
 
 include(MingwDLL)
 
+option(PDEX_DOUBLE "Build for double precision" OFF)
+
 if(NOT PD_WINDOWS_PROGRAM_DIR AND
     CMAKE_SYSTEM_NAME MATCHES "Windows" AND CMAKE_SYSTEM_PROCESSOR MATCHES "^i.86$")
   if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/dist/pd.msw/pd")
@@ -74,6 +76,10 @@ macro(add_pd_external TARGET)
     PRIVATE "${PD_INCLUDE_DIR}")
   target_compile_definitions("${TARGET}"
     PRIVATE "PD")
+  if(PDEX_DOUBLE)
+    target_compile_definitions("${TARGET}"
+      PRIVATE "PD_FLOATSIZE=64")
+  endif()
   target_link_libraries("${TARGET}"
     ${PD_LIBRARIES})
   set_target_properties("${TARGET}" PROPERTIES
