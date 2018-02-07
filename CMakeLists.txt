@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 
-project(pd-externals VERSION 0.1)
+project(pd-externals VERSION 0.1 LANGUAGES CXX)
 
 set(deken_PACKAGE_NAME "jpc")
 set(deken_PACKAGE_VERSION "${PROJECT_VERSION}")

@@ -4,6 +4,38 @@
 
 include(MingwDLL)
 
+if(NOT PD_WINDOWS_PROGRAM_DIR AND
+    CMAKE_SYSTEM_NAME MATCHES "Windows" AND CMAKE_SYSTEM_PROCESSOR MATCHES "^i.86$")
+  if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/dist/pd.msw/pd")
+    set(PD_WINDOWS_PROGRAM_DIR "${PROJECT_SOURCE_DIR}/dist/pd.msw/pd")
+  endif()
+endif()
+
+if(NOT PD_WINDOWS_PROGRAM_DIR AND
+    CMAKE_SYSTEM_NAME MATCHES "Windows" AND CMAKE_SYSTEM_PROCESSOR MATCHES "^i.86$")
+  set(PD_BINARY_ZIP "pd-0.48-0.msw.zip")
+  set(PD_BINARY_URL "http://msp.ucsd.edu/Software/${PD_BINARY_ZIP}")
+  set(PD_BINARY_DEST "${PROJECT_SOURCE_DIR}/dist/${PD_BINARY_ZIP}")
+
+  if(NOT EXISTS "${PROJECT_SOURCE_DIR}/dist/${PD_BINARY_ZIP}")
+    message(STATUS "Downloading ${PD_BINARY_ZIP}")
+    file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/dist")
+    file(DOWNLOAD "${PD_BINARY_URL}" "${PD_BINARY_DEST}.part")
+    file(RENAME "${PD_BINARY_DEST}.part" "${PD_BINARY_DEST}")
+  endif()
+
+  find_program(UNZIP_PROGRAM unzip)
+  if (NOT UNZIP_PROGRAM)
+    message(FATAL_ERROR "unzip not found, cannot extract the archive")
+  endif()
+
+  message(STATUS "Extracting ${PD_BINARY_ZIP}")
+  execute_process(
+    COMMAND "${UNZIP_PROGRAM}" -q -d pd.msw "${PD_BINARY_DEST}"
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/dist")
+  set(PD_WINDOWS_PROGRAM_DIR "${PROJECT_SOURCE_DIR}/dist/pd.msw/pd")
+endif()
+
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
   if(NOT PD_WINDOWS_PROGRAM_DIR)
     message(FATAL_ERROR "Please set PD_WINDOWS_PROGRAM_DIR on the Windows platform")
