@@ -10,6 +10,7 @@
 #include <new>
 #include <limits>
 #include <utility>
+#include <complex>
 
 #if defined(_WIN32)
 # define PDEX_API extern "C" __declspec(dllexport)
@@ -20,6 +21,8 @@
 #endif
 
 //------------------------------------------------------------------------------
+typedef std::complex<t_float> t_complex;
+
 constexpr inline t_float operator""_f(long double x)
 {
     return (t_float)x;
