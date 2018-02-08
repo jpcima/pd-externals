@@ -123,6 +123,8 @@ static void robot_step(t_robot *x, const t_float *in, t_float *out)
     for (uint i = 0; i < winsize / 2 + 1; ++i)
         cplx[i] = std::abs(cplx[i]);
     FFTW(execute_dft_c2r)(bwd, cplx, real);
+    for (uint i = 0; i < winsize; ++i)
+        real[i] /= winsize;
 
     ola.process(real, out);
 
