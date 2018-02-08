@@ -52,14 +52,9 @@ static t_nlcubic *nlcubic_new(t_symbol *, int argc, t_atom *argv)
     return x.release();
 }
 
-static t_int *nlcubic_perform(t_int *w)
+static void nlcubic_perform(
+    t_nlcubic *x, const uint n, const t_sample *in, t_sample *out)
 {
-    ++w;
-    t_nlcubic *x = (t_nlcubic *)*w++;
-    const t_sample *in = (t_sample *)*w++;
-    t_sample *out = (t_sample *)*w++;
-    const uint n = *w++;
-
     const t_float a1 = x->x_a1;
     const t_float a2 = x->x_a2;
     const t_float a3 = x->x_a3;
@@ -78,15 +73,11 @@ static t_int *nlcubic_perform(t_int *w)
 
         out[i] = output;
     }
-
-    return w;
 }
 
 static void nlcubic_dsp(t_nlcubic *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     sp[0]->s_n };
-    dsp_addv(nlcubic_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(nlcubic_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void nlcubic_threshold(t_nlcubic *x, t_floatarg t)

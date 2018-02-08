@@ -73,15 +73,11 @@ static t_blepsaw *blepsaw_new(t_symbol *, int argc, t_atom *argv)
     return x.release();
 }
 
-static t_int *blepsaw_perform(t_int *ww)
+static void blepsaw_perform(
+    t_blepsaw *xx, const uint n,
+    const t_sample *freqin, const t_sample *syncin,
+    t_sample *output, t_sample *syncout)
 {
-    ++ww;
-    t_blepsaw *xx = (t_blepsaw *)*ww++;
-    const t_sample *freqin = (t_sample *)*ww++;
-    const t_sample *syncin = (t_sample *)*ww++;
-    t_sample *output = (t_sample *)*ww++;
-    t_sample *syncout = (t_sample *)*ww++;
-    const uint n = *ww++;
     const t_float fs = sys_getsr();
 
     t_float p = xx->x_p;  /* phase [0, 1) */
@@ -150,15 +146,13 @@ static t_int *blepsaw_perform(t_int *ww)
     xx->x_w = w;
     xx->x_z = z;
     xx->x_j = j;
-    return ww;
 }
 
 static void blepsaw_dsp(t_blepsaw *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     (t_int)sp[2]->s_vec, (t_int)sp[3]->s_vec,
-                     sp[0]->s_n };
-    dsp_addv(blepsaw_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(
+        blepsaw_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec,
+        sp[2]->s_vec, sp[3]->s_vec);
 }
 
 PDEX_API

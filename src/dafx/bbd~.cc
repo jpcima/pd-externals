@@ -140,15 +140,10 @@ static void *bbd_new(t_symbol *s, int argc, t_atom argv[])
     return x.release();
 }
 
-static t_int *bbd_perform(t_int *w)
+static void bbd_perform(
+    t_bbd *x, const uint n,
+    const t_sample *in, const t_sample *del, t_sample *out)
 {
-    ++w;
-    t_bbd *x = (t_bbd *)*w++;
-    const t_sample *in = (t_sample *)*w++;
-    const t_sample *del = (t_sample *)*w++;
-    t_sample *out = (t_sample *)*w++;
-    const uint n = *w++;
-
     t_float fs = sys_getsr();
 
     iir_t<f64> &aaflt = x->x_aaflt;
@@ -222,15 +217,12 @@ static t_int *bbd_perform(t_int *w)
     x->x_previnval = previnval;
     x->x_currtime = currtime;
     x->x_rndseed = rndseed;
-
-    return w;
 }
 
 static void bbd_dsp(t_bbd *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     (t_int)sp[2]->s_vec, sp[0]->s_n };
-    dsp_addv(bbd_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(
+        bbd_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec);
 }
 
 static void bbd_regen(t_bbd *x, t_floatarg r)

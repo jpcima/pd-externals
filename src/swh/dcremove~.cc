@@ -44,14 +44,9 @@ static void *dcremove_new(t_symbol *s)
     return x.release();
 }
 
-static t_int *dcremove_perform(t_int *w)
+static void dcremove_perform(
+    t_dcremove *x, const uint n, const t_sample *inp, t_sample *out)
 {
-    ++w;
-    t_dcremove *x = (t_dcremove *)*w++;
-    const t_sample *inp = (t_sample *)*w++;
-    t_sample *out = (t_sample *)*w++;
-    const uint n = *w++;
-
     t_float itm1 = x->x_itm1;
     t_float otm1 = x->x_otm1;
 
@@ -64,14 +59,11 @@ static t_int *dcremove_perform(t_int *w)
 
     x->x_itm1 = itm1;
     x->x_otm1 = otm1;
-    return w;
 }
 
 static void dcremove_dsp(t_dcremove *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     sp[0]->s_n };
-    dsp_addv(dcremove_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(dcremove_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 PDEX_API

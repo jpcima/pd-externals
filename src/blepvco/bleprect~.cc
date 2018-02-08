@@ -83,16 +83,11 @@ static t_bleprect *bleprect_new(t_symbol *, int argc, t_atom *argv)
     return x.release();
 }
 
-static t_int *bleprect_perform(t_int *ww)
+static void bleprect_perform(
+    t_bleprect *xx, const uint n,
+    const t_sample *freqin, const t_sample *syncin, const t_sample *wavm,
+    t_sample *output, t_sample *syncout)
 {
-    ++ww;
-    t_bleprect *xx = (t_bleprect *)*ww++;
-    const t_sample *freqin = (t_sample *)*ww++;
-    const t_sample *syncin = (t_sample *)*ww++;
-    const t_sample *wavm = (t_sample *)*ww++;
-    t_sample *output = (t_sample *)*ww++;
-    t_sample *syncout = (t_sample *)*ww++;
-    const uint n = *ww++;
     const t_float fs = sys_getsr();
 
     t_float p = xx->x_p;  /* phase [0, 1) */
@@ -236,15 +231,13 @@ static t_int *bleprect_perform(t_int *ww)
     xx->x_z = z;
     xx->x_j = j;
     xx->x_k = k;
-    return ww;
 }
 
 static void bleprect_dsp(t_bleprect *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     (t_int)sp[2]->s_vec, (t_int)sp[3]->s_vec,
-                     (t_int)sp[4]->s_vec, sp[0]->s_n };
-    dsp_addv(bleprect_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(
+        bleprect_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec,
+        sp[2]->s_vec, sp[3]->s_vec, sp[4]->s_vec);
 }
 
 PDEX_API

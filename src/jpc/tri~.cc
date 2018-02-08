@@ -31,14 +31,9 @@ static t_tri *tri_new(t_floatarg f)
     return x.release();
 }
 
-static t_int *tri_perform(t_int *ww)
+static void tri_perform(
+    t_tri *x, const uint n, const t_sample *in, t_sample *out)
 {
-    ++ww;
-    t_tri *x = (t_tri *)*ww++;
-    const t_sample *in = (const t_sample *)*ww++;
-    t_sample *out = (t_sample *)*ww++;
-    const uint n = *ww++;
-
     const t_float fs = sys_getsr();
     const t_float ts = 1 / fs;
 
@@ -54,15 +49,11 @@ static t_int *tri_perform(t_int *ww)
     }
 
     x->x_phase = phase;
-
-    return ww;
 }
 
 static void tri_dsp(t_tri *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     sp[0]->s_n };
-    dsp_addv(tri_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(tri_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 static void tri_ft1(t_tri *x, t_float p)

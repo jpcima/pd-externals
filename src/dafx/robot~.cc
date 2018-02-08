@@ -131,14 +131,9 @@ static void robot_step(t_robot *x, const t_float *in, t_float *out)
     x->x_histidx = histidx;
 }
 
-static t_int *robot_perform(t_int *w)
+static void robot_perform(
+    t_robot *x, uint nleft, const t_sample *in, t_sample *out)
 {
-    ++w;
-    t_robot *x = (t_robot *)*w++;
-    const t_sample *in = (t_sample *)*w++;
-    t_sample *out = (t_sample *)*w++;
-    uint nleft = *w++;
-
     const uint step = x->x_step;
     t_float *inbuf = x->x_inbuf.data();
     t_float *outbuf = x->x_outbuf.data();
@@ -162,14 +157,11 @@ static t_int *robot_perform(t_int *w)
     }
 
     x->x_bufidx = bufidx;
-    return w;
 }
 
 void robot_dsp(t_robot *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     sp[0]->s_n };
-    dsp_addv(robot_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(robot_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
 PDEX_API

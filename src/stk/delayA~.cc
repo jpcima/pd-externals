@@ -75,14 +75,10 @@ static void *delayA_new(t_symbol *s, int argc, t_atom *argv)
     return x.release();
 }
 
-static t_int *delayA_perform(t_int *w)
+static void delayA_perform(
+    t_delayA *x, const uint n,
+    const t_sample *in, const t_sample *del, t_sample *out)
 {
-    ++w;
-    t_delayA *x = (t_delayA *)*w++;
-    const t_sample *in = (t_sample *)*w++;
-    const t_sample *del = (t_sample *)*w++;
-    t_sample *out = (t_sample *)*w++;
-    const uint n = *w++;
     const t_float fs = sys_getsr();
 
     t_float lastframe = x->x_lastframe;
@@ -135,14 +131,13 @@ static t_int *delayA_perform(t_int *w)
     x->x_apinput = apinput;
     x->x_inpoint = inpoint;
     x->x_outpoint = outpoint;
-    return w;
 }
 
 static void delayA_dsp(t_delayA *x, t_signal **sp)
 {
-    t_int elts[] = { (t_int)x, (t_int)sp[0]->s_vec, (t_int)sp[1]->s_vec,
-                     (t_int)sp[2]->s_vec, sp[0]->s_n };
-    dsp_addv(delayA_perform, sizeof(elts) / sizeof(*elts), elts);
+    dsp_add_s(
+        delayA_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec,
+        sp[2]->s_vec);
 }
 
 PDEX_API
