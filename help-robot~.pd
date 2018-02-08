@@ -5,8 +5,8 @@
 #X obj 69 96 adc~ 1 2;
 #X obj 91 198 *~;
 #X obj 64 198 *~;
-#X obj 164 167 hsl 128 15 1e-05 1 1 1 empty empty empty -2 -8 0 10
--262144 -1 -1 7620 1;
+#X obj 164 167 hsl 128 15 0 1 0 1 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
 #X text 172 151 effect volume;
 #X text 192 122 <-pitch;
 #X obj 56 122 robot~ 220;
