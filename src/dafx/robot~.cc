@@ -1,3 +1,8 @@
+/* Robotic sound effect
+ *
+ * Copyright (C) 2018 Jean-Pierre Cimalando.
+ */
+
 #include "util/pd++.h"
 #include "util/fftw++.h"
 #include "util/dsp/overlap_add.h"
