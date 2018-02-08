@@ -1,0 +1,24 @@
+// -*- C++ -*-
+#pragma once
+#include <utility>
+
+namespace jsl {
+
+template <bool...>
+struct bool_pack;
+
+template <bool... bs>
+struct all_true;
+
+template <bool... bs>
+struct all_false;
+
+template <bool... bs>
+constexpr bool all_true_v = all_true<bs...>::value;
+
+template <bool... bs>
+constexpr bool all_false_v = all_false<bs...>::value;
+
+}  // namespace jsl
+
+#include "bits/utility.tcc"

@@ -9,7 +9,6 @@
 #include <memory>
 #include <new>
 #include <limits>
-#include <utility>
 #include <complex>
 
 #if defined(_WIN32)
@@ -19,6 +18,9 @@
 #else
 # define PDEX_API extern "C"
 #endif
+
+//------------------------------------------------------------------------------
+#define dsp_add_s(f, ...) _  // a safer dsp_add
 
 //------------------------------------------------------------------------------
 typedef std::complex<t_float> t_complex;
@@ -100,3 +102,5 @@ using pd_allocator = jsl::ordinary_allocator<T, pd_allocator_traits>;
 //------------------------------------------------------------------------------
 namespace jsl { template <class T, class A> class dynarray; }
 template <class T> using pd_dynarray = jsl::dynarray<T, pd_allocator<T>>;
+
+#include "pd++.tcc"
