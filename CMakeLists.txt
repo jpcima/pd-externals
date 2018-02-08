@@ -17,6 +17,11 @@ set(CMAKE_C_VISIBILITY_PRESET "hidden")
 set(CMAKE_CXX_VISIBILITY_PRESET "hidden")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+find_package(OpenMP)
+if(OpenMP_FOUND)
+  add_compile_options("${OpenMP_C_FLAGS}")  # only for compiling, not linking
+endif()
+
 include_directories(
   "${PROJECT_SOURCE_DIR}/src")
 
