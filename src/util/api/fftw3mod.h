@@ -54,6 +54,7 @@ extern "C"
 {
 #endif /* __cplusplus */
 
+#if !defined(FFTW_DEFINE_COMPLEX)
 /* If <complex.h> is included, use the C99 complex type.  Otherwise
    define a type bit-compatible with C99 complex */
 #if !defined(FFTW_NO_Complex) && defined(_Complex_I) && defined(complex) && defined(I)
@@ -61,6 +62,7 @@ extern "C"
 #else
 #  define FFTW_DEFINE_COMPLEX(R, C) typedef R C[2]
 #endif
+#endif  // !defined(FFTW_DEFINE_COMPLEX)
 
 #define FFTW_CONCAT(prefix, name) prefix ## name
 #define FFTW_MANGLE_DOUBLE(name) FFTW_CONCAT(fftw_, name)

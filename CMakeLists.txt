@@ -7,6 +7,7 @@ set(deken_PACKAGE_VERSION "${PROJECT_VERSION}")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(GNUWarnings)
+include(FindPkgConfigLibrary)
 include(PdExternal)
 
 enable_gnu_warning("all")
@@ -23,6 +24,16 @@ include_directories(
   "${PROJECT_SOURCE_DIR}/thirdparty/GSL/include")
 include_directories(
   "${PROJECT_SOURCE_DIR}/thirdparty/jsl/include")
+
+if(PDEX_DOUBLE)
+  pkg_check_library(jpc-fftw fftw3)
+else()
+  pkg_check_library(jpc-fftw fftw3f)
+endif()
+
+if(NOT jpc-fftw_FOUND)
+  message(STATUS "FFTW not found, some externals will not be built")
+endif()
 
 ################################################################################
 add_library(blepvco-common STATIC
@@ -47,6 +58,9 @@ add_pd_external(lfos_tilde src/jpc/lfos~.cc)
 
 ################################################################################
 add_pd_external(bbd_tilde src/dafx/bbd~.cc)
+if(jpc-fftw_FOUND)
+  add_pd_external(robot_tilde src/dafx/robot~.cc)
+endif()
 
 ################################################################################
 add_pd_external(delayA_tilde src/stk/delayA~.cc)
