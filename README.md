@@ -7,6 +7,7 @@ Each class is accompanied with a help file. Open this file in Puredata for usage
 - **blepsaw~** bandlimited sawtooth oscillator with hard sync
 - **bleptri~** bandlimited triangle oscillator with hard sync
 - **bbd~** digital model of the analog bucket brigade delay (BBD)
+- **limit~** limiter
 - **robot~** robotic sound effect
 - **lfos~** array of LFOs with fixed relative phase offsets
 - **sincos** combined computation of sine and cosine (faster)
