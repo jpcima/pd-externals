@@ -22,6 +22,9 @@ private:
 };
 
 //------------------------------------------------------------------------------
+// generate a random number
+u32 fastrandom(u32 *pseed);
+
 // generate white noise
 template <class R>
 R white(u32 *pseed);

@@ -41,6 +41,10 @@
 \, 1). Each output is delayed by a fixed phase offset \, which does
 not drift with time. By default phase offsets are positioned to be
 spaced evenly within the period.;
+#X msg 495 234 randomize \$1;
+#X obj 498 214 hsl 128 15 0 5 0 1 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 506 196 set the randomness;
 #X connect 0 0 11 0;
 #X connect 0 0 12 0;
 #X connect 0 0 13 0;
@@ -58,3 +62,5 @@ spaced evenly within the period.;
 #X connect 24 0 10 0;
 #X connect 26 0 10 0;
 #X connect 27 0 10 0;
+#X connect 29 0 10 0;
+#X connect 30 0 29 0;

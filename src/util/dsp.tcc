@@ -44,9 +44,13 @@ R iir_t<R>::tick(R in)
 }
 
 //------------------------------------------------------------------------------
+inline u32 fastrandom(u32 *pseed)
+{
+    return *pseed = *pseed * 1664525u + 1013904223u;
+}
+
 template <class R>
 inline R white(u32 *pseed)
 {
-    u32 seed = *pseed = *pseed * 1664525u + 1013904223u;
-    return (i32)seed * (1 / (R)INT32_MAX);
+    return (i32)fastrandom(pseed) * (1 / (R)INT32_MAX);
 }

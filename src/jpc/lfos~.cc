@@ -4,6 +4,7 @@
  */
 
 #include "util/pd++.h"
+#include "util/dsp.h"
 #include <jsl/dynarray>
 #include <jsl/math>
 #include <jsl/types>
@@ -23,6 +24,8 @@ struct t_lfos : pd_basic_class<t_lfos> {
     t_float x_f = 0;
     t_float x_phase = 0;
     e_lfo_shape x_shape = shape_sin;
+    t_float x_rndamt = 0;
+    u32 x_rndseed = 0;
     pd_dynarray<t_float> x_phaseoff;
     pd_dynarray<t_float> x_tmpbuf;
     pd_dynarray<t_symbol *> x_shapesyms;
@@ -109,13 +112,23 @@ static t_int *lfos_perform(t_int *w)
     const uint nlfos = x->x_otl_outp.size();
     const t_float phase0 = x->x_phase;
     const e_lfo_shape shape = x->x_shape;
+    const t_float rndamt = x->x_rndamt;
+    u32 rndseed = x->x_rndseed;
     const t_float *phaseoffs = x->x_phaseoff.data();
     t_float *tmpbuf = x->x_tmpbuf.data();
 
-    std::copy(in, in + n, tmpbuf);
-
     auto wrap_phase = [](t_float p) -> t_float
-        { return p - (int)p; };
+        { p -= (int)p; return (p < 0) ? (p + 1) : p; };
+
+    if (rndamt == 0)
+        std::copy(in, in + n, tmpbuf);
+    else {
+        for (uint i = 0; i < n; ++i) {
+            t_float f = in[i];
+            f *= 1 + rndamt * ((i32)fastrandom(&rndseed) * (1.0_f / INT32_MAX));
+            tmpbuf[i] = f;
+        }
+    }
 
     t_float phase;
     uint ilfo = 0;
@@ -179,6 +192,7 @@ static t_int *lfos_perform(t_int *w)
     } while (++ilfo < nlfos);
 
     x->x_phase = wrap_phase(phase);
+    x->x_rndseed = rndseed;
     return w;
 }
 
@@ -234,6 +248,11 @@ static void lfos_phases(t_lfos *x, t_symbol *s, int argc, t_atom argv[])
     }
 }
 
+static void lfos_randomize(t_lfos *x, t_float r)
+{
+    x->x_rndamt = r;
+}
+
 PDEX_API
 void lfos_tilde_setup()
 {
@@ -250,4 +269,7 @@ void lfos_tilde_setup()
         cls, (t_method)&lfos_shape, gensym("shape"), A_SYMBOL, A_NULL);
     class_addmethod(
         cls, (t_method)&lfos_phases, gensym("phases"), A_GIMME, A_NULL);
+    class_addmethod(
+        cls, (t_method)&lfos_randomize, gensym("randomize"),
+        A_FLOAT, A_NULL);
 }
