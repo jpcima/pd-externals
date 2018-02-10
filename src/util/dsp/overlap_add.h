@@ -10,7 +10,7 @@
 template <class R>
 class overlap_add {
 public:
-    overlap_add();
+    overlap_add() noexcept {}
     overlap_add(size_t step, gsl::span<const R> window);
 
     // compute one block of overlap-add

@@ -11,7 +11,7 @@
 // IIR Direct Form I processor
 template <class R>
 struct iir_t {
-    iir_t() {}
+    iir_t() noexcept {}
     explicit iir_t(const coef_t<R> &c);
     R tick(R in);
     void reset();

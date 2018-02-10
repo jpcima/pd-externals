@@ -3,11 +3,6 @@
 #include <algorithm>
 
 template <class R>
-overlap_add<R>::overlap_add()
-{
-}
-
-template <class R>
 overlap_add<R>::overlap_add(size_t step, gsl::span<const R> window)
 {
     size_t winsize = window.size();

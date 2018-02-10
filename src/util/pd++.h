@@ -54,7 +54,7 @@ using u_pd = std::unique_ptr<T, pd_object_deleter>;
 template <class T>
 struct pd_basic_class {
     static t_class *x_class;
-    t_object x_obj {};
+    t_object x_obj;
 };
 
 template <class T>
@@ -62,31 +62,10 @@ t_class *pd_basic_class<T>::x_class = nullptr;
 
 //------------------------------------------------------------------------------
 template <class T>
-u_pd<T> pd_make_instance()
-{
-    static_assert(std::is_nothrow_move_assignable<T>(),
-                  "type must be move assignable without exception");
-
-    T *p = (T *)pd_new(T::x_class);
-    if (!p)
-        throw std::bad_alloc();
-
-    T x;
-    x.x_obj = p->x_obj;
-    *p = std::move(x);
-    return u_pd<T>(p);
-}
+u_pd<T> pd_make_instance();
 
 template <class T, class... A>
-t_class *pd_make_class(t_symbol *sym, t_newmethod newmethod, int flags, const A &...args)
-{
-    struct traits {
-        static void free(T *x)
-            { x->~T(); }
-    };
-    return T::x_class = class_new(
-        sym, newmethod, (t_method)&traits::free, sizeof(T), flags, args...);
-}
+t_class *pd_make_class(t_symbol *sym, t_newmethod newmethod, int flags, const A &...args);
 
 //------------------------------------------------------------------------------
 struct pd_allocator_traits {

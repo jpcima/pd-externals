@@ -45,7 +45,7 @@ add_library(blepvco-common STATIC
   src/blepvco/blepvco.cc
   src/blepvco/minblep_tables.cc)
 target_include_directories(blepvco-common
-  PUBLIC "${PD_INCLUDE_DIR}")
+  PUBLIC ${PD_INCLUDE_DIRS})
 
 add_pd_external(bleprect_tilde src/blepvco/bleprect~.cc)
 target_link_libraries(bleprect_tilde blepvco-common)
