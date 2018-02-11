@@ -52,13 +52,13 @@ using u_pd = std::unique_ptr<T, pd_object_deleter>;
 
 //------------------------------------------------------------------------------
 template <class T>
-struct pd_basic_class {
+struct pd_basic_object {
     static t_class *x_class;
     t_object x_obj;
 };
 
 template <class T>
-t_class *pd_basic_class<T>::x_class = nullptr;
+t_class *pd_basic_object<T>::x_class = nullptr;
 
 //------------------------------------------------------------------------------
 template <class T>

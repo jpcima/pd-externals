@@ -44,7 +44,7 @@ inline void dsp_add_invoker<Ft, Fn, A...>::call(t_int *w, std::index_sequence<I.
 //------------------------------------------------------------------------------
 namespace pd_detail {
 
-template <class T> t_object &object_base(pd_basic_class<T> &x) noexcept
+template <class T> t_object &object_base(pd_basic_object<T> &x) noexcept
     { return x.x_obj; }
 
 }  // namespace pd_detail

@@ -27,7 +27,7 @@
 #include <jsl/types>
 #include <cstring>
 
-struct t_blepsaw : pd_basic_class<t_blepsaw> {
+struct t_blepsaw : pd_basic_object<t_blepsaw> {
     t_float x_signalin = 0;
     t_float x_p = 0;
     t_float x_w = 0;

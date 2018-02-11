@@ -6,7 +6,7 @@
 #include "util/pd++.h"
 #include <jsl/types>
 
-struct t_sincos : pd_basic_class<t_sincos> {
+struct t_sincos : pd_basic_object<t_sincos> {
     u_outlet x_otl_sin;
     u_outlet x_otl_cos;
 };

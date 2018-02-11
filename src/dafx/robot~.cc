@@ -16,7 +16,7 @@
 # define FFTW(x) fftw_##x
 #endif
 
-struct t_robot : pd_basic_class<t_robot> {
+struct t_robot : pd_basic_object<t_robot> {
     t_float x_signalin = 0;
     //
     pd_dynarray<t_float> x_inbuf;

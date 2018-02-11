@@ -23,7 +23,7 @@
 #include <jsl/math>
 #include <jsl/types>
 
-struct t_nlcubic : pd_basic_class<t_nlcubic> {
+struct t_nlcubic : pd_basic_object<t_nlcubic> {
     t_float x_signalin = 0;
     t_float x_a1 = 0.5;
     t_float x_a2 = 0.5;

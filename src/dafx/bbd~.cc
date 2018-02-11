@@ -41,7 +41,7 @@
 #include <jsl/math>
 #include <jsl/types>
 
-struct t_bbd : pd_basic_class<t_bbd> {
+struct t_bbd : pd_basic_object<t_bbd> {
     t_float x_signalin = 0;
     t_float x_maxdelay = 0;
     iir_t<f64> x_aaflt;

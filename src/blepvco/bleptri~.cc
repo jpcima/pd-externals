@@ -27,7 +27,7 @@
 #include <jsl/types>
 #include <cstring>
 
-struct t_bleptri : pd_basic_class<t_bleptri> {
+struct t_bleptri : pd_basic_object<t_bleptri> {
     t_float x_signalin = 0;
     t_float x_p = 0;
     t_float x_w = 0;

@@ -21,7 +21,7 @@
 #include "util/pd++.h"
 #include <jsl/types>
 
-struct t_dcremove : pd_basic_class<t_dcremove> {
+struct t_dcremove : pd_basic_object<t_dcremove> {
     t_float x_signalin = 0;
     t_float x_itm1 = 0;
     t_float x_otm1 = 0;

@@ -6,7 +6,7 @@
 #include "util/pd++.h"
 #include <jsl/types>
 
-struct t_tri : pd_basic_class<t_tri> {
+struct t_tri : pd_basic_object<t_tri> {
     t_float x_f = 0;
     t_float x_phase = 0;
     u_inlet x_inl_ft1;

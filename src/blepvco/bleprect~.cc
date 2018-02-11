@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <cstring>
 
-struct t_bleprect : pd_basic_class<t_bleprect> {
+struct t_bleprect : pd_basic_object<t_bleprect> {
     t_float x_signalin = 0;
     t_float x_p = 0;
     t_float x_w = 0;

@@ -25,7 +25,7 @@
 #include <cmath>
 #include <algorithm>
 
-struct t_delayA : pd_basic_class<t_delayA> {
+struct t_delayA : pd_basic_object<t_delayA> {
     t_float x_signalin = 0;
     int x_maxsamples = 0;
     t_float x_lastframe = 0;

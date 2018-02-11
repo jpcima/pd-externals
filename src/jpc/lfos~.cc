@@ -20,7 +20,7 @@ static constexpr uint lfo_shape_count =
 static constexpr uint lfos_max_count = 32;
 
 //------------------------------------------------------------------------------
-struct t_lfos : pd_basic_class<t_lfos> {
+struct t_lfos : pd_basic_object<t_lfos> {
     t_float x_f = 0;
     t_float x_phase = 0;
     e_lfo_shape x_shape = shape_sin;
