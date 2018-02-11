@@ -66,6 +66,7 @@ add_pd_external(bbd_tilde src/dafx/bbd~.cc)
 add_pd_external(limit_tilde src/dafx/limit~.cc)
 if(jpc-fftw_FOUND)
   add_pd_external(robot_tilde src/dafx/robot~.cc)
+  target_link_libraries(robot_tilde jpc-fftw)
 endif()
 
 ################################################################################
