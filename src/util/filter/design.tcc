@@ -5,7 +5,7 @@
  */
 
 #include "util/filter/design.h"
-#include <cmath>
+#include <jsl/math>
 
 template <class R>
 pzk_t<R> iir_butterworth(uint ord)
@@ -120,4 +120,33 @@ coef_t<R> bilinear(const coef_t<R> &in, R fs)
     coef_t<R> out{std::move(bprime), std::move(aprime)};
     out.normalize();
     return out;
+}
+
+template <class R>
+jsl::dynarray<R> fir1(R fc, const jsl::dynarray<R> &win)
+{
+    uint n = win.size();
+    jsl::dynarray<R> h(n);
+
+    for (uint i = 0; i < n; ++i) {
+        R x = i - (R)0.5 * (n - 1);
+        R w = win[i];
+        h[i] = w * jsl::sinc(fc * x * 2 * (R)M_PI);
+    }
+
+    return h;
+}
+
+template <class R>
+jsl::dynarray<R> fir1(R fc, size_t n)
+{
+    jsl::dynarray<R> win(n);
+
+    for (size_t i = 0; i < n; ++i) {
+        const R a = 0.54;
+        const R b = 1 - a;
+        win[i] = a - b * std::cos(2 * (R)M_PI * i / (n - 1));
+    }
+
+    return fir1(fc, win);
 }

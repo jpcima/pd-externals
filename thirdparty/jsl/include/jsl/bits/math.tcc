@@ -24,6 +24,12 @@ inline R cube(R x)
 }
 
 template <class R>
+R sinc(R x)
+{
+    return (x == 0) ? 1 : (std::sin(x) / x);
+}
+
+template <class R>
 R binom(uint n, uint k)
 {
   R r = 1;

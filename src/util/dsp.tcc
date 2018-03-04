@@ -4,6 +4,8 @@
  */
 
 #include "util/dsp.h"
+#include <jsl/math>
+#include <algorithm>
 
 template <class R>
 iir_t<R>::iir_t(const coef_t<R> &c)
@@ -41,6 +43,57 @@ R iir_t<R>::tick(R in)
     y[i] = r;
     this->i = i;
     return r;
+}
+
+//------------------------------------------------------------------------------
+template <class R>
+fir_t<R>::fir_t(const jsl::dynarray<R> &c)
+    : c(c),
+      x(new R[2 * c.size()]{})
+{
+}
+
+template <class R>
+void fir_t<R>::in(R in)
+{
+    R *x = this->x.get();
+    const uint n = this->c.size();
+
+    uint i = this->i;
+    i = (i ? i : n) - 1;
+
+    x[i] = x[i + n] = in;
+    this->i = i;
+}
+
+template <class R>
+R fir_t<R>::out() const
+{
+  const uint i = this->i;
+  const uint n = this->c.size();
+  const R *c = this->c.data();
+  const R *x = this->x.get();
+
+  R r = 0;
+#pragma omp simd
+  for (uint j = 0; j < n; ++j)
+    r += x[i + j] * c[j];
+  return r;
+}
+
+template <class R>
+R fir_t<R>::tick(R in)
+{
+    this->in(in);
+    return this->out();
+}
+
+template <class R>
+void fir_t<R>::reset()
+{
+    const R *x = this->x.data();
+    const uint n = this->c.size();
+    std::fill_n(x, 2 * n, 0);
 }
 
 //------------------------------------------------------------------------------
