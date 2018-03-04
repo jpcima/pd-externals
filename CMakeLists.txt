@@ -20,6 +20,16 @@ if(OpenMP_FOUND)
   add_compile_options("${OpenMP_C_FLAGS}")  # only for compiling, not linking
 endif()
 
+set(USE_LIBCXX_INIT OFF)
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+  set(USE_LIBCXX_INIT ON)
+endif()
+
+option(USE_LIBCXX "Use libc++" "${USE_LIBCXX_INIT}")
+if(USE_LIBCXX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif()
+
 include_directories(
   "${PROJECT_SOURCE_DIR}/src")
 
