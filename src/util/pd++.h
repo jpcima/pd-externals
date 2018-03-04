@@ -19,6 +19,10 @@
 # define PDEX_API extern "C"
 #endif
 
+#if PD_FLOATSIZE != 32 && !defined(class_new)
+# error this version of pd does not support class_new64
+#endif
+
 //------------------------------------------------------------------------------
 #define dsp_add_s(f, ...) _  // a safer dsp_add
 
