@@ -54,6 +54,10 @@ add_library(blepvco-common STATIC
   src/blepvco/minblep_tables.cc)
 target_include_directories(blepvco-common
   PUBLIC ${PD_INCLUDE_DIRS})
+if(PDEX_DOUBLE)
+  target_compile_definitions(blepvco-common
+    PRIVATE "PD_FLOATSIZE=64")
+endif()
 
 add_pd_external(bleprect_tilde src/blepvco/bleprect~.cc)
 target_link_libraries(bleprect_tilde blepvco-common)
