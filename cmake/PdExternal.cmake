@@ -92,6 +92,10 @@ macro(add_pd_external TARGET)
     LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
     PREFIX ""
     SUFFIX "${PD_EXTERNAL_SUFFIX}")
+  if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set_target_properties("${TARGET}" PROPERTIES
+      LINK_FLAGS "-Wl,-undefined,suppress,-flat_namespace")
+  endif()
   mingw_link_static_system_libs("${TARGET}")
   unset(_name)
 endmacro()
