@@ -15,6 +15,7 @@ Each class is accompanied with a help file. Open this file in Puredata for usage
 - **delayA~** allpass delay line
 - **nlcubic~** cubic non-linearity
 - **dcremove~** DC offset remover
+- **opl3~** emulation of the Yamaha OPL3 with MIDI driver
 
 ## Usage instructions
 
@@ -36,3 +37,5 @@ In cases noted below, the code retains the license of the project it originates 
 
 - **src/dafx/bbd~.cc**, **src/stk/** are MIT licensed
 - **src/fons/**, **src/blepvco/**, **src/swh/** are GPLv2 or later
+- **src/chip/opl3/driver/** is LGPLv2
+- **src/chip/opl3/nukedopl/** is GPLv2 or later

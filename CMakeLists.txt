@@ -89,6 +89,13 @@ add_pd_external(nlcubic_tilde src/stk/nlcubic~.cc)
 add_pd_external(dcremove_tilde src/swh/dcremove~.cc)
 
 ################################################################################
+add_pd_external(opl3_tilde
+  src/chip/opl3~.cc
+  src/chip/opl3/nukedopl/opl3.c
+  src/chip/opl3/driver/OPLSynth.cc
+  src/chip/opl3/driver/OPLPatch.cc)
+
+################################################################################
 add_deken_package(jpcex "${PROJECT_VERSION}"
   TARGETS
     bleprect_tilde blepsaw_tilde bleptri_tilde
@@ -96,6 +103,7 @@ add_deken_package(jpcex "${PROJECT_VERSION}"
     bbd_tilde limit_tilde robot_tilde
     delayA_tilde nlcubic_tilde
     dcremove_tilde
+    opl3_tilde
   FILES
     help-*.pd CMakeLists.txt README.md LICENSE.md
   DIRS
