@@ -4,6 +4,7 @@
  */
 
 #include "opl3/driver/OPLSynth.h"
+#include "util/midi.h"
 #include "util/pd++.h"
 #include <jsl/math>
 #include <jsl/types>
@@ -78,20 +79,6 @@ static void opl3_handle_sysex(t_opl3 *x, const u8 *msg, uint len)
 {
     OPLSynth &opl = x->x_opl;
     opl.PlaySysex(msg, len);
-}
-
-static uint midi_message_sizeof(uint8_t id)
-{
-    static const uint8_t size_chn[8] = {
-        3, 3, 3, 3, 2, 2, 3 };
-    static const uint8_t size_sys[16] = {
-        0, 2, 3, 2, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
-    if ((id >> 7) == 0)
-        return 0;
-    else if ((id >> 4) != 0b1111)
-        return size_chn[(id >> 4) & 0b111];
-    else
-        return size_sys[id & 0b1111];
 }
 
 static void opl3_midi(t_opl3 *x, t_float f)
