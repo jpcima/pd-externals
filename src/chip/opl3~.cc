@@ -8,14 +8,12 @@
 #include "util/pd++.h"
 #include <jsl/math>
 #include <jsl/types>
-#include <array>
 #include <cassert>
 
 struct t_opl3 : pd_basic_object<t_opl3> {
     OPLSynth x_opl;
     uint x_ins = 0;
-    uint x_midifill = 0;
-    std::array<u8, 128> x_midibuf {};
+    MIDI_Parser x_midiparse;
     u_outlet x_otl_left;
     u_outlet x_otl_right;
 };
@@ -42,6 +40,8 @@ static void *opl3_new(t_symbol *s, int argc, t_atom argv[])
         OPLSynth &opl = x->x_opl;
         opl.Init(fs);
 
+        x->x_midiparse.buffer(128);
+
         x->x_otl_left.reset(outlet_new(&x->x_obj, &s_signal));
         x->x_otl_right.reset(outlet_new(&x->x_obj, &s_signal));
     }
@@ -66,51 +66,20 @@ static void opl3_dsp(t_opl3 *x, t_signal **sp)
     dsp_add_s(opl3_perform, x, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
 }
 
-static void opl3_handle_midi(t_opl3 *x, const u8 *msg, uint len)
-{
-    OPLSynth &opl = x->x_opl;
-    uint32_t word = 0;
-    for (uint i = 0; i < len; ++i)
-        word |= msg[i] << (8*i);
-    opl.WriteMidiData(word);
-}
-
-static void opl3_handle_sysex(t_opl3 *x, const u8 *msg, uint len)
-{
-    OPLSynth &opl = x->x_opl;
-    opl.PlaySysex(msg, len);
-}
-
 static void opl3_midi(t_opl3 *x, t_float f)
 {
-    u8 b = (u8)f;
-    auto &buf = x->x_midibuf;
-    uint fill = x->x_midifill;
-
-    if (fill < buf.size())
-        buf[fill++] = b;
-
-    if (buf[0] == 0xf0) {
-        // sysex message
-        if (b == 0xf7) {
-            if (buf[fill - 1] == 0xf7)
-                opl3_handle_sysex(x, buf.data(), fill);
-            fill = 0;
+    OPLSynth &opl = x->x_opl;
+    const MIDI_Message msg = x->x_midiparse.process(f);
+    if (msg) {
+        if (msg.data[0] == 0xf0)
+                opl.PlaySysex(msg.data, msg.length);
+        else {
+            uint32_t word = 0;
+            for (uint i = 0; i < msg.length; ++i)
+                word |= msg.data[i] << (8*i);
+            opl.WriteMidiData(word);
         }
     }
-    else {
-        // normal message, 1-3 byte long
-        uint len = midi_message_sizeof(buf[0]);
-        if (len == 0) {
-            error("unrecognized midi message (status %#x)", buf[0]);
-            fill = 0;  // ignore
-        }
-        else if (fill == len) {
-            opl3_handle_midi(x, buf.data(), len);
-            fill = 0;
-        }
-    }
-    x->x_midifill = fill;
 }
 
 PDEX_API
