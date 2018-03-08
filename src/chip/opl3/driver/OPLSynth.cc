@@ -10,7 +10,9 @@
 // ==============================================================================
 
 #include "OPLSynth.h"
-#include <arpa/inet.h>  // ntohs
+#if !defined(_WIN32)
+# include <arpa/inet.h>  // ntohs
+#endif
 #include <algorithm>
 #include <string.h>
 #include <math.h>

@@ -96,6 +96,9 @@ add_pd_external(opl3_tilde
   src/chip/opl3/nukedopl/opl3.c
   src/chip/opl3/driver/OPLSynth.cc
   src/chip/opl3/driver/OPLPatch.cc)
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+  target_link_libraries(opl3_tilde ws2_32)
+endif()
 
 ################################################################################
 add_deken_package(jpcex "${PROJECT_VERSION}"
