@@ -13,6 +13,7 @@ Each class is accompanied with a help file. Open this file in Puredata for usage
 - **sincos** combined computation of sine and cosine (faster)
 - **tri~** primitive triangle oscillator
 - **miditranspose** transposition of MIDI note events
+- **midiselect** MIDI event selection by channel and type
 - **delayA~** allpass delay line
 - **nlcubic~** cubic non-linearity
 - **dcremove~** DC offset remover

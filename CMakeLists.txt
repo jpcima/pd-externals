@@ -73,6 +73,7 @@ add_pd_external(tri_tilde src/jpc/tri~.cc)
 add_pd_external(sincos src/jpc/sincos.cc)
 add_pd_external(lfos_tilde src/jpc/lfos~.cc)
 add_pd_external(miditranspose src/jpc/miditranspose.cc)
+add_pd_external(midiselect src/jpc/midiselect.cc)
 
 ################################################################################
 add_pd_external(bbd_tilde src/dafx/bbd~.cc)
@@ -100,7 +101,7 @@ add_pd_external(opl3_tilde
 add_deken_package(jpcex "${PROJECT_VERSION}"
   TARGETS
     bleprect_tilde blepsaw_tilde bleptri_tilde
-    tri_tilde sincos lfos_tilde miditranspose
+    tri_tilde sincos lfos_tilde miditranspose midiselect
     bbd_tilde limit_tilde robot_tilde
     delayA_tilde nlcubic_tilde
     dcremove_tilde
