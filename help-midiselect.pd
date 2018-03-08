@@ -1,10 +1,6 @@
 #N canvas 441 330 504 400 10;
 #X text 124 19 - MIDI event selection by channel and type;
 #X obj 21 19 midiselect;
-#X text 24 47 For each MIDI message received \, this object evaluates
-a set of conditions. If any of the conditions match \, the message
-is transmitted to the left inlet \, or to the right one otherwise.
-;
 #X obj 115 198 midiselect 1 2 s;
 #X text 36 198 Example;
 #X obj 92 316 midiselect;
@@ -21,8 +17,12 @@ is transmitted to the left inlet \, or to the right one otherwise.
 #X text 41 144 - s: any system exclusive message;
 #X text 41 130 - c : any channel mode message;
 #X text 263 290 <-edits the selection at any time;
-#X connect 5 0 7 0;
-#X connect 6 0 5 0;
-#X connect 8 0 5 0;
-#X connect 9 0 10 0;
-#X connect 9 0 8 0;
+#X text 24 47 For each MIDI message received \, this object evaluates
+a set of conditions. If any of the conditions match \, the message
+is transmitted to the left outlet \, or to the right one otherwise.
+;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 7 0 4 0;
+#X connect 8 0 9 0;
+#X connect 8 0 7 0;
