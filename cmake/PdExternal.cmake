@@ -12,14 +12,15 @@ set(PD_LIBRARIES)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
   find_program(PD_DLLTOOL dlltool)
-  add_custom_target(pdex-implib-generated
+  add_custom_command(
+    OUTPUT "libpd.dll.a"
     COMMAND "${PD_DLLTOOL}" -l libpd.dll.a -d "${PD_IMP_DEF}"
     DEPENDS "${PD_IMP_DEF}")
+  add_custom_target(pdex-implib-generated
+    DEPENDS "libpd.dll.a")
   add_library(pdex-implib STATIC IMPORTED)
   set_target_properties(pdex-implib PROPERTIES
     IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/libpd.dll.a")
-  add_dependencies(pdex-implib
-    pdex-implib-generated)
   list(APPEND PD_LIBRARIES
     pdex-implib)
 endif()
