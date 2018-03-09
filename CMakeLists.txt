@@ -112,4 +112,6 @@ add_deken_package(jpcex "${PROJECT_VERSION}"
   FILES
     help-*.pd CMakeLists.txt README.md LICENSE.md
   DIRS
-    src thirdparty cmake)
+    src thirdparty cmake
+  EXCLUDE
+    "/\\.git$" "^thirdparty/GSL/tests/")

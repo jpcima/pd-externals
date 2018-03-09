@@ -10,7 +10,7 @@ macro(add_deken_package NAME VERSION)
   set(_deps)
 
   cmake_parse_arguments(_arg
-    "" "" "TARGETS;FILES;DIRS" ${ARGN})
+    "" "" "TARGETS;FILES;DIRS;EXCLUDE" ${ARGN})
 
   if(NOT "${_arg_UNPARSED_ARGUMENTS}" STREQUAL "")
     message(FATAL_ERROR "invalid arguments")
@@ -31,10 +31,33 @@ macro(add_deken_package NAME VERSION)
       COMMAND "${CMAKE_COMMAND}" -E copy "${_file}" "${_package_dir}")
   endforeach()
   foreach(_dir ${_arg_DIRS})
-    get_filename_component(_dirname "${_dir}" NAME)
-    list(APPEND _cmds
-      COMMAND "${CMAKE_COMMAND}" -E copy_directory "${_dir}" "${_package_dir}/${_dirname}")
-    unset(_dirname)
+    file(GLOB_RECURSE _alldirfiles
+      LIST_DIRECTORIES FALSE RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${_dir}/*")
+    #
+    set(_dirfiles)
+    foreach(_dirfile ${_alldirfiles})
+      set(_excluded FALSE)
+      foreach(_exclregex ${_arg_EXCLUDE})
+        if(_dirfile MATCHES "${_exclregex}")
+          set(_excluded TRUE)
+        endif()
+      endforeach()
+      if(NOT _excluded)
+        list(APPEND _dirfiles "${_dirfile}")
+      endif()
+      unset(_excluded)
+    endforeach()
+    unset(_alldirfiles)
+    #
+    foreach(_dirfile ${_dirfiles})
+      get_filename_component(_filedir "${_dirfile}" DIRECTORY)
+      list(APPEND _cmds
+        COMMAND "${CMAKE_COMMAND}" -E make_directory "${_package_dir}/${_filedir}"
+        COMMAND "${CMAKE_COMMAND}" -E copy "${_dirfile}" "${_package_dir}/${_filedir}/")
+      unset(_filedir)
+    endforeach()
+    unset(_dirfiles)
   endforeach()
 
   add_custom_target("${NAME}-deken-contents"
@@ -57,5 +80,6 @@ macro(add_deken_package NAME VERSION)
   unset(_arg_TARGETS)
   unset(_arg_FILES)
   unset(_arg_DIRS)
+  unset(_arg_EXCLUDE)
   unset(_arg_UNPARSED_ARGUMENTS)
 endmacro()
