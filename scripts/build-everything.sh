@@ -13,7 +13,7 @@ function build() {
         prefix="$target-"; build="build-$target"
     fi
 
-    local cmakeflags="-DCMAKE_BUILD_TYPE=Release"
+    local cmakeflags="-G Ninja -DCMAKE_BUILD_TYPE=Release"
     case "$floatsize" in
         32) ;;
         64) cmakeflags="$cmakeflags -DPDEX_DOUBLE=ON" ;;
