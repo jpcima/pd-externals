@@ -10,9 +10,7 @@
 // ==============================================================================
 
 #include "OPLSynth.h"
-#if !defined(_WIN32)
-# include <arpa/inet.h>  // ntohs
-#endif
+#include <jsl/byte_order>
 #include <algorithm>
 #include <string.h>
 #include <math.h>
@@ -2612,12 +2610,12 @@ void
          MemCopy2x4To8((BYTE *)&map, bufpos, maplen);
 
          // Byte swap fields, file to native
-         map.wBaseTranspose = ntohs(map.wBaseTranspose);
-         map.wSecondTranspose = ntohs(map.wSecondTranspose);
-         map.wPitchEGAmt = ntohs(map.wPitchEGAmt);
-         map.wPitchEGTime = ntohs(map.wPitchEGTime);
-         map.wBaseFineTune = ntohs(map.wBaseFineTune);
-         map.wSecondFineTune = ntohs(map.wSecondFineTune);
+         map.wBaseTranspose = jsl::int_of_be16(map.wBaseTranspose);
+         map.wSecondTranspose = jsl::int_of_be16(map.wSecondTranspose);
+         map.wPitchEGAmt = jsl::int_of_be16(map.wPitchEGAmt);
+         map.wPitchEGTime = jsl::int_of_be16(map.wPitchEGTime);
+         map.wBaseFineTune = jsl::int_of_be16(map.wBaseFineTune);
+         map.wSecondFineTune = jsl::int_of_be16(map.wSecondFineTune);
 
          // Check validity
          /**/

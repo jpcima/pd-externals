@@ -15,17 +15,11 @@
 #include <m_pd.h>
 #include <vector>
 #include <stdint.h>
-#if defined(_WIN32)
-# include <winsock2.h>  // ntohs
-# include <windows.h>
-#endif
 
-#if !defined(_WIN32)
 typedef uint8_t  BYTE;
 typedef uint16_t WORD;
 typedef uint32_t DWORD, ULONG;
 typedef int32_t  LONG;
-#endif
 
 enum {
    NUMPATCHES  = 256,
