@@ -757,8 +757,8 @@ void
    for (j = 0; j < 2; j++)
    {
       long lPitchSet =
-           (j==0 && bPatch < 128) ? (wBaseCoarseTune*8192)+(wBaseFineTune*40.96)
-         : (j==1 && bPatch < 128) ? (wSecondCoarseTune*8192)+(wSecondFineTune*40.96)
+           (j==0 && bPatch < 128) ? (wBaseCoarseTune*8192)+(wBaseFineTune*4096/100)
+         : (j==1 && bPatch < 128) ? (wSecondCoarseTune*8192)+(wSecondFineTune*4096/100)
          : 0;
 
       wTemp = Opl3_MIDINote2FNum(bNote, bChannel, lPitchSet);
