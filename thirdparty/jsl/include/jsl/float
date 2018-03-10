@@ -1,0 +1,34 @@
+// -*- C++ -*-
+#pragma once
+#include <cfloat>
+
+namespace jsl {
+
+template <class R>
+struct fp_traits;
+
+template <class R>
+using float_bits = typename fp_traits<R>::bits_t;
+
+template <class R>
+float_bits<R> bits_of_float(R x);
+
+template <class R>
+R float_of_bits(float_bits<R> i);
+
+template <class R>
+unsigned fgetexp(R x);
+template <class R>
+R fsetexp(R x, unsigned);
+
+template <class R>
+float_bits<R> fgetfrac(R x);
+template <class R>
+R fsetfrac(R x, float_bits<R> f);
+
+template <class R>
+R unchecked_ldexp(R x, int i);
+
+}  // namespace jsl
+
+#include "bits/float.tcc"

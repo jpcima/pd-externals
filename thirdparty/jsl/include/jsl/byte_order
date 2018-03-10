@@ -1,0 +1,29 @@
+// -*- C++ -*-
+#pragma once
+#include <cstdint>
+
+namespace jsl {
+
+constexpr uint16_t byteswap16(uint16_t x);
+constexpr uint32_t byteswap32(uint32_t x);
+constexpr uint64_t byteswap64(uint64_t x);
+
+constexpr uint16_t int_of_le16(uint16_t x);
+constexpr uint32_t int_of_le32(uint32_t x);
+constexpr uint64_t int_of_le64(uint64_t x);
+
+constexpr uint16_t int_of_be16(uint16_t x);
+constexpr uint32_t int_of_be32(uint32_t x);
+constexpr uint64_t int_of_be64(uint64_t x);
+
+constexpr uint16_t le16_of_int(uint16_t x);
+constexpr uint32_t le32_of_int(uint32_t x);
+constexpr uint64_t le64_of_int(uint64_t x);
+
+constexpr uint16_t be16_of_int(uint16_t x);
+constexpr uint32_t be32_of_int(uint32_t x);
+constexpr uint64_t be64_of_int(uint64_t x);
+
+}  // namespace jsl
+
+#include "bits/byte_order.tcc"
