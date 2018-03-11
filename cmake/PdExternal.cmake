@@ -19,6 +19,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
   add_custom_target(pdex-implib-generated
     DEPENDS "libpd.dll.a")
   add_library(pdex-implib STATIC IMPORTED)
+  add_dependencies(pdex-implib pdex-implib-generated)
   set_target_properties(pdex-implib PROPERTIES
     IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/libpd.dll.a")
   list(APPEND PD_LIBRARIES
