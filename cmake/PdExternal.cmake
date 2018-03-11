@@ -12,6 +12,9 @@ set(PD_LIBRARIES)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
   find_program(PD_DLLTOOL dlltool)
+  if(NOT PD_DLLTOOL)
+    message(FATAL_ERROR "Cannot find dlltool")
+  endif()
   add_custom_command(
     OUTPUT "libpd.dll.a"
     COMMAND "${PD_DLLTOOL}" -l libpd.dll.a -d "${PD_IMP_DEF}"
